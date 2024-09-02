@@ -2,14 +2,14 @@ import logo from './logo.svg';
 import './App.css';
 
 import {Amplify} from 'aws-amplify';
-import awsExports from './aws-exports';
+import awsmobile from './aws-exports';
 
 import {useState} from 'react';
 import {generateClient} from 'aws-amplify/api';
 import {createTodo} from './graphql/mutations';
 import {listTodos} from './graphql/queries';
 
-Amplify.configure(awsExports);
+Amplify.configure(awsmobile);
 
 
 
