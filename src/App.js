@@ -1,7 +1,37 @@
 import logo from './logo.svg';
 import './App.css';
 
+import {Amplify} from 'aws-amplify';
+import awsExports from './aws-exports';
+Amplify.configure(awsExports);
+
+import {useState} from 'react';
+import{API} from 'aws-amplify';
+import {createTodo} from './graphql/mutations';
+import {listTodos} from './graphql/queries';
+
 function App() {
+  const [TodoList, setTodoList] = useState([]);
+
+  const setTodo = async() => {
+    await API.graphql({
+      query: createTodo,
+      variables: {
+        input: {
+          name: "todo",
+          description: "description"
+        }
+      }
+    });
+  }
+
+  const getTodo = async() => {
+    const result = await API.graphql({
+      query: listTodos
+    });
+    setTodoList(result.data.listTodos.items);
+  }
+
   return (
     <div className="App">
       <header className="App-header">
@@ -17,7 +47,11 @@ function App() {
         >
           Learn React
         </a>
-        <h4>aaaaaa</h4>
+        <button onClick={setTodo}>Set Todo</button>
+        <button onClick={getTodo}>Get Todo</button>
+        <ul>
+          {TodoList.map((todo, index) => <li key={index}>{todo.name}</li>)}
+        </ul>
       </header>
     </div>
   );
