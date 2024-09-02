@@ -3,13 +3,17 @@ import './App.css';
 
 import {Amplify} from 'aws-amplify';
 import awsExports from './aws-exports';
-Amplify.configure(awsExports);
 
 import {useState} from 'react';
-import{API} from 'aws-amplify';
+import {generateClient} from 'aws-amplify/api';
 import {createTodo} from './graphql/mutations';
 import {listTodos} from './graphql/queries';
 
+Amplify.configure(awsExports);
+
+
+
+const API = generateClient();
 function App() {
   const [TodoList, setTodoList] = useState([]);
 
